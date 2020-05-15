@@ -2,17 +2,27 @@
   <div class="article" v-if="Object.keys(model).length">
     <!-- 导航 -->
     <nav-bar class="nav" />
+
     <div class="detailinfo">
       <!-- 视频 -->
       <div class="video">
         <video :src="model.content" controls poster="@/assets/imgs/video.jpg"></video>
       </div>
 
+      <!-- App内打开 高清更流畅 (。・∀・)ノ -->
+      <div class="app">
+        <a
+          href="http://d.bilibili.com/download_app.html?preUrl=http%3A%2F%2Fm.bilibili.com%2Fvideo%2Fav625739549.html&amp;schema=bilibili%3A%2F%2Fvideo%2F625739549%3Fpage%3D0&h5awaken=cHZpZD0yM0YwMUY3NC1BNkMxLTQ1NEQtOTFGNi1EQzEyRjcxMDgzNDE0NzE1NmluZm9jXzYyNTczOTU0OV8xNTg5NTQ2ODgxNTkxJnVhPU1vemlsbGElMkY1LjAlMjAoaVBob25lJTNCJTIwQ1BVJTIwaVBob25lJTIwT1MlMjAxM18yXzMlMjBsaWtlJTIwTWFjJTIwT1MlMjBYKSUyMEFwcGxlV2ViS2l0JTJGNjA1LjEuMTUlMjAoS0hUTUwlMkMlMjBsaWtlJTIwR2Vja28pJTIwVmVyc2lvbiUyRjEzLjAuMyUyME1vYmlsZSUyRjE1RTE0OCUyMFNhZmFyaSUyRjYwNC4xJmlzQXV0b09wZW49ZmFsc2UmYnNvdXJjZT11bmRlZmluZWQmJm9wZW5fYXBwX2Zyb21fdHlwZT1oNSZvcGVuX2FwcF91dWlkPUFDNTAzNzUwLTMyNUItOTQ1OS04NkIxLTkzNTJBNjM4MDcxQzg1ODAwaW5mb2Mmb3Blbl9hcHBfZ3JvdXBpZD04MjImb3Blbl9hcHBfdXJsPWh0dHBzJTNBJTJGJTJGbS5iaWxpYmlsaS5jb20lMkZ2aWRlbyUyRkJWMUh0NHkxQzdydiZvcGVuX2FwcF9hZGRpdGlvbj0lN0IlMjJzcG1pZCUyMiUzQSUyMjMzMy40MDEuY2xpY2sucGxheWVyJTIyJTdE"
+        >
+          <span>App内打开 高清更流畅 (。・∀・)ノ</span>
+        </a>
+      </div>
+
       <!-- 介绍 -->
       <div class="detailtext">
         <div>
           <span>{{ model.category.title }}</span>
-          <span>{{model.name}}</span>
+          <span class="name">{{model.name}}</span>
         </div>
         <div>
           <a href="javascript:;">
@@ -105,6 +115,19 @@ export default {
 .article {
   background-color: #fff;
 
+  .app {
+    margin: 2.667vw;
+    border-radius: 6.667vw;
+    padding: 2.133vw 2.667vw;
+    background-color: #fb7299;
+    width: scal(100% - 2.667vw);
+    text-align: center;
+    span {
+      font-size: 3.733vw;
+      color: #fff;
+    }
+  }
+
   .detailparent {
     display: flex;
     justify-content: space-around;
@@ -123,7 +146,6 @@ export default {
     }
   }
   .detailtext {
-    vertical-align: middle;
     padding: 4vw;
     div:nth-child(1) {
       span:nth-child(1) {
@@ -131,8 +153,11 @@ export default {
         margin-right: 2.667vw;
         border-radius: 3.2vw;
         color: #fb7299;
-        background-color: #f4f4f4;
+        background-color: #f4f5f6;
         font-size: 3.2vw;
+      }
+      .name {
+        font-size: 4.267vw;
       }
     }
     div:nth-child(2) {
