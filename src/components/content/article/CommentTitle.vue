@@ -4,8 +4,10 @@
       <span>评论</span>
       <span>(233333)</span>
     </p>
-    <div class="comment_info" v-if="myuser">
-      <img :src="myuser.user_img" />
+    <div class="comment_info" v-if="off">
+      <img :src="myuser.user_img" v-if="myuser.user_img" />
+      <img src="@/assets/imgs/headimg.jpg" v-else />
+
       <input ref="text" type="text" placeholder="说点什么吧" />
       <button @click="commit">龙门粗口</button>
     </div>
@@ -20,12 +22,21 @@ export default {
   name: "Comment",
   data() {
     return {
-      myuser:[]
+      myuser: []
     };
   },
   created() {
     if (localStorage.getItem("token")) {
       this.myUserinfo();
+    }
+  },
+  computed: {
+    off() {
+      return (
+        this.myuser &&
+        localStorage.getItem("token") &&
+        localStorage.getItem("id")
+      );
     }
   },
   methods: {
@@ -46,7 +57,7 @@ export default {
 
 <style lang='less' scoped>
 .comment {
-  padding: 5.333vw 2.667vw;
+  padding: 31.999px 2.667vw 0 2.667vw;
   .comment_title {
     margin-bottom: 3.2vw;
     span:nth-child(2) {
@@ -64,7 +75,7 @@ export default {
       vertical-align: middle;
     }
     input {
-      padding: 0 30px 0 18px;
+      padding: 0 8vw 0 4.8vw;
       background-color: #f4f4f4;
       border-radius: 4vw;
       margin: 0 4vw;

@@ -62,6 +62,7 @@
 
     <!-- 评论 -->
     <comment-title />
+    <comment />
   </div>
 </template>
 
@@ -69,6 +70,7 @@
 import NavBar from "@/components/content/profile/NavBar";
 import Detail from "./Detail";
 import CommentTitle from "@/components/content/article/CommentTitle";
+import Comment from "@/components/content/article/Comment";
 
 export default {
   name: "Article",
@@ -81,7 +83,8 @@ export default {
   components: {
     NavBar,
     Detail,
-    CommentTitle
+    CommentTitle,
+    Comment
   },
   created() {
     this.ArticleData();
