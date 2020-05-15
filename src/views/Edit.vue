@@ -9,7 +9,8 @@
         <van-uploader class="uploadimg" preview-size="100vw" :after-read="afterRead" />
         <edit-banner left="头像">
           <a href="javascript:;" slot="right">
-            <img :src="model.user_img" alt />
+            <img :src="model.user_img" v-if="model.user_img"/>
+            <img src="@/assets/imgs/headimg.jpg" v-else/>
           </a>
         </edit-banner>
       </div>
@@ -23,7 +24,8 @@
         <a href="javascript:;" slot="right">{{ model.gender ? '男':'女' }}</a>
       </edit-banner>
       <edit-banner left="个签" @bannerClick="textshow = !textshow;">
-        <a href="javascript:;" slot="right">{{ model.user_desc }}</a>
+        <a href="javascript:;" slot="right" v-if="model.user_desc">{{ model.user_desc }}</a>
+        <a href="javascript:;" slot="right" v-else>bilibili</a>
       </edit-banner>
     </div>
 
@@ -51,6 +53,7 @@
     <van-action-sheet v-model="gendershow" cancel-text="取消" :actions="actions" @select="onSelect" />
 
     <div class="editback" @click="$router.back()">返回个人中心</div>
+    <div class="editback" @click="biliClose">退出登录</div>
   </div>
 </template>
 
@@ -95,9 +98,10 @@ export default {
       const res = await this.$http.post("/upload/", fd);
       // console.log(res);
       this.model.user_img = res.data.url;
+      this.UserUpdate();
     },
 
-    // 上传完文件后 修改后台数据
+    // 修改后台数据
     async UserUpdate() {
       const res = await this.$http.post(
         "/update/" + localStorage.getItem("id"),
@@ -115,6 +119,8 @@ export default {
       this.content = "";
       this.UserUpdate();
     },
+
+    // 内容更新
     textClick() {
       this.model.user_desc = this.content;
       this.content = "";
@@ -126,6 +132,12 @@ export default {
       this.model.gender = data.val;
       this.gendershow = !this.gendershow;
       this.UserUpdate();
+    },
+
+    // 退出登录
+    biliClose() {
+      localStorage.clear();
+      window.location.reload(true);
     }
   }
 };

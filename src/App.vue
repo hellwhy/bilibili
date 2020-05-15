@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive exclude="Article">
+    <keep-alive include="Home">
       <router-view />
     </keep-alive>
   </div>
@@ -20,6 +20,10 @@ body {
   }
   a {
     text-decoration: none;
+  }
+  input {
+    outline: none;
+    border:0;
   }
 }
 </style>

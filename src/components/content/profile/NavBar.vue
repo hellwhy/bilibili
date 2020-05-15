@@ -27,12 +27,19 @@ export default {
   props: ["userInfo"],
   data() {
     return {
-      model : {}
-    }
+      model: {}
+    };
   },
-  async created() {
-    const res = this.$http.get('/user/' + localStorage.getItem('id'))
-    this.model = res
+  created() {
+    this.navUserInfo();
+  },
+  methods: {
+    async navUserInfo() {
+      if (localStorage.getItem("token")) {
+      const res = await this.$http.get("/user/" + localStorage.getItem("id"));
+      this.model = res.data[0];
+    }
+    }
   }
 };
 </script>
@@ -82,7 +89,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    div>img {
+    div > img {
       width: 7.467vw;
       height: 7.467vw;
       vertical-align: middle;

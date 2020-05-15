@@ -1,5 +1,5 @@
 <template>
-  <div class="detail" @click="$router.push(`/article/${detailitem.id}`)">
+  <div class="detail" @click="pathPush">
     <div class="pic">
       <img :src="'https://images.weserv.nl/?url='+detailitem.img" />
       <div class="view">
@@ -20,7 +20,14 @@
 <script>
 export default {
   name: "Detail",
-  props: ["detailitem"]
+  props: ["detailitem"],
+  methods: {
+    pathPush() {
+      if (this.$route.path != `/article/${this.detailitem.id}`) {
+        this.$router.push(`/article/${this.detailitem.id}`);
+      }
+    }
+  }
 };
 </script>
 

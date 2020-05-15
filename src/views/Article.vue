@@ -1,9 +1,8 @@
 <template>
   <div class="article" v-if="Object.keys(model).length">
     <!-- 导航 -->
-    <nav-bar />
+    <nav-bar class="nav" />
     <div class="detailinfo">
-
       <!-- 视频 -->
       <div class="video">
         <video :src="model.content" controls poster="@/assets/imgs/video.jpg"></video>
@@ -41,32 +40,38 @@
         </div>
       </div>
     </div>
+    <!-- 推荐视频 -->
     <div class="detailparent">
-            <detail
-              class="detailitem"
-              :detailitem="item"
-              v-for="(item,index) in commendList"
-              :key="index"
-            />
-          </div>
+      <detail
+        class="detailitem"
+        :detailitem="item"
+        v-for="(item,index) in commendList"
+        :key="index"
+      />
+    </div>
+
+    <!-- 评论 -->
+    <comment-title />
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/content/profile/NavBar";
 import Detail from "./Detail";
+import CommentTitle from "@/components/content/article/CommentTitle";
 
 export default {
   name: "Article",
   data() {
     return {
       model: {},
-      commendList:[]
+      commendList: {}
     };
   },
   components: {
     NavBar,
-    Detail
+    Detail,
+    CommentTitle
   },
   created() {
     this.ArticleData();
@@ -78,26 +83,37 @@ export default {
       this.model = res.data[0];
     },
     async commendData() {
-      const res = await this.$http.get('/commend/');
-      this.commendList = res.data
+      const res = await this.$http.get("/commend/");
+      this.commendList = res.data;
+    }
+  },
+  watch: {
+    $route() {
+      this.ArticleData();
+      this.commendData();
     }
   }
 };
 </script>
 
 <style lang='less' scoped>
+.nav {
+  position: sticky;
+  top: 0 !important;
+  z-index: 9999;
+}
 .article {
   background-color: #fff;
 
   .detailparent {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  .detailitem {
-    width: 45%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    .detailitem {
+      width: 45%;
+    }
   }
-}
 }
 .detailinfo {
   .video {
