@@ -2,14 +2,14 @@
   <div class="comment">
     <p class="comment_title">
       <span>评论</span>
-      <span>(233333)</span>
+      <span>({{contentlength}})</span>
     </p>
     <div class="comment_info" v-if="off">
       <img :src="myuser.user_img" v-if="myuser.user_img" />
       <img src="@/assets/imgs/headimg.jpg" v-else />
 
       <input ref="text" type="text" placeholder="说点什么吧" />
-      <button @click="commit">龙门粗口</button>
+      <button @click="commit">发表</button>
     </div>
     <div class="infofalse" v-else>
       <p>舰长大人 登陆后才能评论哦 ヾ(≧▽≦*)o</p>
@@ -22,13 +22,17 @@ export default {
   name: "Comment",
   data() {
     return {
-      myuser: []
+      myuser: [],
+      contentlength:0
     };
   },
   created() {
     if (localStorage.getItem("token")) {
       this.myUserinfo();
     }
+    this.$bus.$on('contentLength',(ls)=> {
+      this.contentlength = ls
+    })
   },
   computed: {
     off() {
@@ -40,15 +44,20 @@ export default {
     }
   },
   methods: {
+    // 个人数据
     async myUserinfo() {
       const res = await this.$http.get(`/user/${localStorage.getItem("id")}`);
       this.myuser = res.data[0];
     },
+    // 评论提交给父组件处理
     commit() {
-      if (this.$refs.text.value.trim()) {
-        console.log(this.$refs.text.value);
+      let text = this.$refs.text
+      if (text.value.trim()) {
+        this.$emit('textList',text.value); 
+        text.value = '';
+        this.$msg.fail("评论成功");
       } else {
-        console.log("请先输入");
+        this.$msg.fail("请先输入");
       }
     }
   }

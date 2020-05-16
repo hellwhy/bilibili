@@ -1,9 +1,9 @@
 <template>
-  <div class="home">
+  <div id="home">
     <nav-bar />
 
     <van-tabs v-model="active" swipeable sticky>
-      <van-tab class="tabs" v-for="(item,index) in category" :title="item.title" :key="index">
+      <van-tab v-for="(item,index) in category" :title="item.title" :key="index">
         <van-list
           v-model="item.loading"
           :immediate-check="false"
@@ -81,13 +81,15 @@ export default {
         }
       });
       // console.log(res.data);
+      // 判断服务器是否还有更多数据 没有就显示数据加载完成 没有更多数据
       categoryitem.list.push(...res.data);
       categoryitem.loading = false;
-      if(res.data.length < 10) {
+      if (res.data.length < 10) {
         categoryitem.finished = true;
       }
     },
 
+    // 上拉加载更多
     onLoad() {
       const categoryitem = this.categoryItem();
       setTimeout(() => {
@@ -105,13 +107,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.detailparent {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  .detailitem {
-    width: 45%;
+#home {
+  .detailparent {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    .detailitem {
+      width: 45%;
+    }
   }
 }
 </style>

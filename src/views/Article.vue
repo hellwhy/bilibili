@@ -41,8 +41,10 @@
           <span>
             <img src="@/assets/icons/dianzan.png" /> 点赞
           </span>
-          <span>
-            <img src="@/assets/icons/shoucang.png" />收藏
+          <span @click="scClick" :class="{'sc':this.shoucang}">
+            <img src="@/assets/icons/shoucangtrue.png" v-if="this.shoucang"/>
+            <img src="@/assets/icons/shoucangfalse.png" v-else/>
+            收藏
           </span>
           <span>
             <img src="@/assets/icons/download.png" />缓存
@@ -61,7 +63,7 @@
     </div>
 
     <!-- 评论 -->
-    <comment-title />
+    <comment-title @textList="textPost" />
     <comment />
   </div>
 </template>
@@ -77,7 +79,14 @@ export default {
   data() {
     return {
       model: {},
-      commendList: {}
+      commendList: {},
+      postcom: {
+        article_id: 0,
+        comment_content: "",
+        parent_id: null,
+        comment_date: null
+      },
+      shoucang:false
     };
   },
   components: {
@@ -89,21 +98,73 @@ export default {
   created() {
     this.ArticleData();
     this.commendData();
+    this.scInit();
   },
   methods: {
+    // 视频数据渲染
     async ArticleData() {
       const res = await this.$http.get("/article/" + this.$route.params.id);
+      // console.log(res);
       this.model = res.data[0];
     },
+
+    // 推荐数据获取
     async commendData() {
-      const res = await this.$http.get("/commend/");
+      const res = await this.$http.get("/commend/");  
+      // console.log(res);  
       this.commendList = res.data;
+    },
+
+    // 发表评论提交到后台
+    async textPost(res) {
+      const date = new Date();
+      let m =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      let d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      const str = `${m}-${d}`;
+      this.postcom.article_id = this.$route.params.id;
+      this.postcom.comment_date = str;
+      this.postcom.comment_content = res;
+      // 追加的评论发送至服务器
+      await this.$http.post('/comment_post/'+localStorage.getItem('id'),this.postcom);
+    },
+
+    // 收藏视频
+    async scClick() {
+      if(localStorage.getItem('token')) {
+        const res = await this.$http.post('/collection/'+localStorage.getItem('id'),{article_id:this.$route.params.id})
+        console.log(res)
+        if(res.data.msg === "收藏成功") {
+          this.shoucang = true
+        }else {
+          this.shoucang = false
+        }
+      }
+    },
+    // 页面加载时判断是否收藏文章 切换状态
+    async scInit() {
+      if(localStorage.getItem('token')){
+        const res = await this.$http.get('/collection/'+localStorage.getItem('id'),{
+        params: {
+          article_id: this.$route.params.id
+        }
+      })
+      this.shoucang = res.data.success;
+      }    
+    },
+    // 路由跳转之后回到顶部
+    scrolltops() {
+      window.scrollTo(0,0);
     }
   },
   watch: {
     $route() {
       this.ArticleData();
       this.commendData();
+      this.scInit();
+     this.scrolltops();
     }
   }
 };
@@ -195,5 +256,9 @@ export default {
       }
     }
   }
+  .sc {
+    color:#fb7299 !important;
+  }
 }
+
 </style>

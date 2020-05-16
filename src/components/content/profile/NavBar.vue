@@ -3,7 +3,7 @@
     <div class="left" @click="$route.path == '/home' ? '' : $router.push('/home')">
       <img src="@/assets/imgs/bilibili.png" />
     </div>
-    <div class="center">
+    <div class="center" @click="$router.push('/search')">
       <p>
         Search
         <van-icon class="ipt-icon" name="search" />
