@@ -50,9 +50,10 @@ export default {
   methods: {
     async registerAjax() {
       let rulg = /^.{6,16}$/;
+      let namerulg = /^.{2,8}$/;
 
-      let name = rulg.test(this.model.name);
-      let username = rulg.test(this.model.username);
+      let name = namerulg.test(this.model.name);
+      let username = namerulg.test(this.model.username);
       let password = rulg.test(this.model.password);
 
       if (name && username && password) {

@@ -2,6 +2,7 @@
   <div>
     <!-- 登录顶部 -->
     <login-top class="top">
+      <div slot="left" @click="$router.push('/home')" style="font-size:3.733vw">先不登录啦</div>
       <div slot="center">登录bilibili</div>
       <div @click="$router.push('./register')" slot="right" style="font-size:3.733vw">注册</div>
     </login-top>
@@ -47,8 +48,9 @@ export default {
   methods: {
     async registerAjax() {
       let rulg = /^.{6,16}$/;
+      let namerulg = /^.{2,8}$/;
 
-      let username = rulg.test(this.model.username);
+      let username = namerulg.test(this.model.username);
       let password = rulg.test(this.model.password);
 
       if (username && password) {
