@@ -31,7 +31,7 @@
     <div class="user">
       <span>{{ userInfo.name }}</span>
       <p v-if="userInfo.user_desc">{{ userInfo.user_desc }}</p>
-      <p v-else>bilibili</p>
+      <p v-else>bilibili干杯</p>
     </div>
 
     <!-- 动态,视频 -->
@@ -45,7 +45,7 @@
 <script>
 export default {
   name: "Detail",
-  props:['userInfo']
+  props: ["userInfo"]
 };
 </script>
 

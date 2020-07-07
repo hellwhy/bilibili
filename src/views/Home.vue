@@ -53,13 +53,13 @@ export default {
 
     // 追加数据
     changeCategory(data) {
-      console.log(data);
+      // console.log(data);
       this.category = data.map((item, index) => {
         item.list = [];
         item.page = 0;
+        item.pagesize = 10;
         item.finished = false;
         item.loading = false;
-        item.pagesize = 10;
         return item;
       });
       this.selectArticle();

@@ -1,8 +1,8 @@
 <template>
   <div class="profile">
     <!-- 头部 -->
-    <nav-bar/>
-    
+    <nav-bar />
+
     <!-- banner -->
     <img class="bannerimg" src="@/assets/imgs/bannerTop.png" alt />
 
@@ -33,8 +33,8 @@ export default {
     async ProfileData() {
       const res = await this.$http.get("/user/" + localStorage.getItem("id"));
       this.model = res.data[0];
-      console.log(res);
-      this.$bus.$emit('models',this.model)
+      // console.log(res);
+      this.$bus.$emit("models", this.model);
     }
   }
 };

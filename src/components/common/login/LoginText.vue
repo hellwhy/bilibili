@@ -26,8 +26,6 @@ export default {
    ruleText() {
     this.$emit('TextClick',this.content)
    }
- },
- watch:{
  }
 }
 </script>
