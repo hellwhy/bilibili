@@ -14,7 +14,7 @@
 body {
   box-sizing: border-box;
   background-color: #f4f4f4;
-  font-size: 3.733vw;
+  font-size: 14px;
   i {
     font-style: normal;
   }
@@ -23,7 +23,7 @@ body {
   }
   input {
     outline: none;
-    border:0;
+    border: 0;
   }
 }
 </style>
